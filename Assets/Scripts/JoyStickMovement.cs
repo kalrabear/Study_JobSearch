@@ -44,12 +44,12 @@ public class JoyStickMovement : MonoBehaviour
         smallStick.transform.position = Input.mousePosition;
         stickFirstPosition = Input.mousePosition;
 
-        if ( !PlayerMovement.Instance.ani.GetCurrentAnimatorStateInfo(0).IsName ("Walk"))
+        if ( !PlayerMovement.Instance.Anim.GetCurrentAnimatorStateInfo(0).IsName ("Walk"))
         {
             //Debug.Log ( "WALK!" );
-            PlayerMovement.Instance.ani.SetBool ("Attack", false);
-            PlayerMovement.Instance.ani.SetBool ("Idle", false);
-            PlayerMovement.Instance.ani.SetBool ("Walk", true);
+            PlayerMovement.Instance.Anim.SetBool ("Attack", false);
+            PlayerMovement.Instance.Anim.SetBool ("Idle", false);
+            PlayerMovement.Instance.Anim.SetBool ("Walk", true);
         }
 
         isPlayerMoving = true;
@@ -80,12 +80,12 @@ public class JoyStickMovement : MonoBehaviour
         bGStick.transform.position = joyStickFirstPosition;
         smallStick.transform.position = joyStickFirstPosition;
 
-        if ( !PlayerMovement.Instance.ani.GetCurrentAnimatorStateInfo(0).IsName ("Idle"))
+        if ( !PlayerMovement.Instance.Anim.GetCurrentAnimatorStateInfo(0).IsName ("Idle"))
         {
 //            Debug.Log ( "IDLE!" );
-            PlayerMovement.Instance.ani.SetBool ( "Attack", false );
-            PlayerMovement.Instance.ani.SetBool ( "Walk", false );
-            PlayerMovement.Instance.ani.SetBool ( "Idle", true );
+            PlayerMovement.Instance.Anim.SetBool ( "Attack", false );
+            PlayerMovement.Instance.Anim.SetBool ( "Walk", false );
+            PlayerMovement.Instance.Anim.SetBool ( "Idle", true );
         }
 
         isPlayerMoving = false;

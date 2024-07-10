@@ -4,44 +4,38 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private static PlayerMovement instance;
-
-    public float moveSpeed;
-
-    public static PlayerMovement Instance
-    { 
-        get 
+    public static PlayerMovement Instance // singlton     
+    {
+        get
         {
             if (instance == null)
             {
                 instance = FindObjectOfType<PlayerMovement>();
-                if (instance == null )
+                if (instance == null)
                 {
                     var instanceContainer = new GameObject("PlayerMovement");
                     instance = instanceContainer.AddComponent<PlayerMovement>();
                 }
             }
-            return instance; 
-        } 
+            return instance;
+        }
     }
-
+    private static PlayerMovement instance;
 
     Rigidbody rb;
-    public Animator ani;
+    public float moveSpeed = 5f;
+    public Animator Anim;
 
-    private void Start()
+    // Start is called before the first frame update
+    void Start()
     {
         rb = GetComponent<Rigidbody>();
-        ani = GetComponent<Animator>();
+        Anim = GetComponent<Animator>();
     }
 
-
-    private void FixedUpdate()
+    // Update is called once per frame
+    void FixedUpdate()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        rb.velocity = new Vector3(moveHorizontal * moveSpeed, rb.velocity.y, moveVertical * moveSpeed);
         if (JoyStickMovement.Instance.joyVec.x != 0 || JoyStickMovement.Instance.joyVec.y != 0)
         {
             rb.velocity = new Vector3(JoyStickMovement.Instance.joyVec.x, rb.velocity.y, JoyStickMovement.Instance.joyVec.y) * moveSpeed;
@@ -53,9 +47,28 @@ public class PlayerMovement : MonoBehaviour
     {
         if (other.transform.CompareTag("NextRoom"))
         {
-            Debug.Log("Next Room");
+            Debug.Log(" Get Next Room ");
             StageMgr.Instance.NextStage();
         }
-    }
 
+        /*if (other.transform.CompareTag("HpBooster"))
+        {
+            PlayerHpBar.Instance.GetHpBoost();
+            Destroy(other.gameObject);
+        }*/
+
+        if (other.transform.CompareTag("MeleeAtk"))
+        {
+            other.transform.parent.GetComponent<EnemyDuck>().meleeAtkArea.SetActive(false);
+            PlayerHpBar.Instance.currentHp -= other.transform.parent.GetComponent<EnemyDuck>().damage * 2f;
+
+            if (!Anim.GetCurrentAnimatorStateInfo(0).IsName("Dmg"))
+            {
+                Anim.SetTrigger("Dmg");
+                Instantiate(EffectSet.Instance.PlayerDmgEffect, PlayerTargeting.Instance.AttackPoint.position, Quaternion.Euler(90, 0, 0));
+            }
+
+        }
+
+    }
 }

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Enemy
   - NextRoom
+  - Wall
+  - Potato
+  - MeleeAtk
   layers:
   - Default
   - TransparentFX
